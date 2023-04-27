@@ -33,6 +33,7 @@ class VinylController extends AbstractController
     #[Route('/browse/{slug}', name: 'app_browse')]
     public function browse(HttpClientInterface $httpClient, CacheInterface $cache,$slug = null): Response
     {
+        dump($cache);
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
         //checks to see if we have mixes_data in teh cache. if we do it will return that righ away
         //if not, it will make the http request and set mixes_data to the response array
