@@ -7,9 +7,13 @@ parameters:
 
 services:
     # default configuration for services in *this* file
+    #defaults that apply to all of our services that we made
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        #all our services will have access to $isDebug. can autowire in a constructor
+        bind:
+            'bool $isDebug': '%kernel.debug%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -22,8 +26,3 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-#    can do this to make parameters autowirable. like services in a constructor
-    App\Service\MixRepository:
-        bind:
-            $isDebug: '%kernel.debug%'
