@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 class MixRepository
 {
     public function __construct(
-        private HttpClientInterface $httpClient,
+        private HttpClientInterface $githubContentClient,
         private CacheInterface $cache,
 //        another way to set $isDebug to the kernel.debug parameter
         #[Autowire('%kernel.debug%')]
@@ -26,7 +26,7 @@ class MixRepository
         return $this->cache->get('mixes_data', function(CacheItemInterface $cacheItem){
             //if we are in debug mode, cache for 5 seconds. else cache for 60
             $cacheItem->expiresAfter($this->isDebug ? 5 : 60);
-            $response = $this->httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
+            $response = $this->githubContentClient->request('GET', '/SymfonyCasts/vinyl-mixes/main/mixes.json');
             return $response->toArray();
         });
     }
