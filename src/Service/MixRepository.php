@@ -10,7 +10,8 @@ class MixRepository
 {
     public function __construct(
         private HttpClientInterface $httpClient,
-        private CacheInterface $cache
+        private CacheInterface $cache,
+        private bool $isDebug
     )
     {
     }
@@ -20,7 +21,8 @@ class MixRepository
         //checks to see if we have mixes_data in teh cache. if we do it will return that righ away
         //if not, it will make the http request and set mixes_data to the response array
         return $this->cache->get('mixes_data', function(CacheItemInterface $cacheItem){
-            $cacheItem->expiresAfter(5);
+            //if we are in debug mode, cache for 5 seconds. else cache for 60
+            $cacheItem->expiresAfter($this->isDebug ? 5 : 60);
             $response = $this->httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
             return $response->toArray();
         });
