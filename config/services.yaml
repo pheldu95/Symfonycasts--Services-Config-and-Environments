@@ -12,8 +12,8 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         #all our services will have access to $isDebug. can autowire in a constructor
-#        bind:
-#            'bool $isDebug': '%kernel.debug%'
+        bind:
+            'bool $isDebug': '%kernel.debug%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
